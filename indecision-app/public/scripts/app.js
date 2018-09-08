@@ -1,46 +1,91 @@
 'use strict';
 
-// arguments object - no longer bound with arrow functions
+console.log('I am soooo smart');
 
-var add = function add(a, b) {
-  // console.log(arguments);
-  return a + b;
+//JSX
+var app = {
+  title: 'Indecision app',
+  subtitle: 'Put your life in order, ahh!',
+  options: []
 };
 
-console.log(add(55, 55, 89));
+var onFormSubmit = function onFormSubmit(e) {
+  e.preventDefault();
 
-//this keyword - no longer bound with arrow functions
+  var option = e.target.elements.option.value;
+  console.log(option);
 
-var user = {
-  name: 'Małga',
-  cities: ['London', 'Gdańsk'],
-  printPlacesLived: function printPlacesLived() {
-    var _this = this;
-
-    return this.cities.map(function (city) {
-      return _this.name + ' has lived in ' + city;
-    });
-
-    // this.cities.forEach((city) => {
-    //   console.log(this.name + ' has lived in ' + city);
-    // });
+  if (option) {
+    app.options.push(option);
+    e.target.elements.option.value = '';
+    renderIndecisionApp();
   }
 };
 
-console.log(user.printPlacesLived());
+var removeAll = function removeAll() {
 
-// Challenge!
-
-var multiplier = {
-  numbers: [2, 6, 89, 216, 76],
-  mulitplyBy: 6,
-  multiply: function multiply() {
-    var _this2 = this;
-
-    return this.numbers.map(function (number) {
-      return _this2.mulitplyBy * number;
-    });
-  }
+  app.options = [];
+  renderIndecisionApp();
 };
 
-console.log(multiplier.multiply());
+var appRoot = document.querySelector('#app');
+
+var renderIndecisionApp = function renderIndecisionApp() {
+  var template = React.createElement(
+    'div',
+    null,
+    React.createElement(
+      'h1',
+      null,
+      app.title
+    ),
+    app.subtitle && React.createElement(
+      'p',
+      null,
+      app.subtitle
+    ),
+    React.createElement(
+      'p',
+      null,
+      app.options.length > 0 ? 'Here are your options' : 'No options'
+    ),
+    React.createElement(
+      'p',
+      null,
+      app.options.length
+    ),
+    React.createElement(
+      'button',
+      { onClick: removeAll },
+      'Remove All'
+    ),
+    React.createElement(
+      'ol',
+      null,
+      React.createElement(
+        'li',
+        null,
+        'Item one'
+      ),
+      React.createElement(
+        'li',
+        null,
+        'Item two'
+      )
+    ),
+    React.createElement(
+      'form',
+      { onSubmit: onFormSubmit },
+      React.createElement('input', { type: 'text', name: 'option' }),
+      React.createElement(
+        'button',
+        null,
+        'Add Option'
+      )
+    )
+  );
+
+  ReactDOM.render(template, appRoot);
+};
+
+renderIndecisionApp();
