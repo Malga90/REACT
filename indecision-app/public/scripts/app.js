@@ -1,86 +1,37 @@
 'use strict';
 
-console.log('I am soooo smart');
+console.log('nanna');
 
-//JSX
-var app = {
-  title: 'Indecision app',
-  subtitle: 'Put your life in order, ahh!',
-  options: []
-};
+var visibility = false;
 
-var onFormSubmit = function onFormSubmit(e) {
-  e.preventDefault();
-
-  var option = e.target.elements.option.value;
-  console.log(option);
-
-  if (option) {
-    app.options.push(option);
-    e.target.elements.option.value = '';
-    renderIndecisionApp();
-  }
-};
-
-var removeAll = function removeAll() {
-
-  app.options = [];
-  renderIndecisionApp();
+var toggle = function toggle() {
+  visibility = !visibility;
+  visibilityToggle();
 };
 
 var appRoot = document.querySelector('#app');
 
-var renderIndecisionApp = function renderIndecisionApp() {
+var visibilityToggle = function visibilityToggle() {
   var template = React.createElement(
     'div',
     null,
     React.createElement(
       'h1',
       null,
-      app.title
-    ),
-    app.subtitle && React.createElement(
-      'p',
-      null,
-      app.subtitle
-    ),
-    React.createElement(
-      'p',
-      null,
-      app.options.length > 0 ? 'Here are your options' : 'No options'
-    ),
-    React.createElement(
-      'p',
-      null,
-      app.options.length
+      'Let\'s toggle'
     ),
     React.createElement(
       'button',
-      { onClick: removeAll },
-      'Remove All'
+      { onClick: toggle },
+      visibility ? 'Hide details' : 'Show details'
     ),
-    React.createElement(
-      'ol',
+    visibility && React.createElement(
+      'div',
       null,
       React.createElement(
-        'li',
+        'p',
         null,
-        'Item one'
-      ),
-      React.createElement(
-        'li',
-        null,
-        'Item two'
-      )
-    ),
-    React.createElement(
-      'form',
-      { onSubmit: onFormSubmit },
-      React.createElement('input', { type: 'text', name: 'option' }),
-      React.createElement(
-        'button',
-        null,
-        'Add Option'
+        'Now you can see me, bastard!'
       )
     )
   );
@@ -88,4 +39,4 @@ var renderIndecisionApp = function renderIndecisionApp() {
   ReactDOM.render(template, appRoot);
 };
 
-renderIndecisionApp();
+visibilityToggle();
